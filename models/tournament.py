@@ -1,45 +1,57 @@
+from tinydb import TinyDB
+
+
 class Tournament:
-    """Use to create an instance of a tournament"""
-    def __init__(self, tournament_name=None,
-                 location=None,
-                 tournament_date=None,
-                 number_of_tours=4,
-                 time_control=None,
-                 description=None,
-                 players_ids=None,
-                 list_of_tours=None,
-                 tournament_id=None
-                 ):
 
-        self.tournament_name = tournament_name
-        self.location = location
-        self.tournament_date = tournament_date
-        self.number_of_tours = number_of_tours
-        self.time_control = time_control
-        self.description = description
-        self.players_ids = players_ids
-        self.list_of_tours = list_of_tours
+    def __init__(self, tournament_id, name, location, start_date, end_date, description, time_control, current_round,
+                 players, rounds, rounds_total=4):
         self.tournament_id = tournament_id
+        self.name = name
+        self.location = location
+        self.start_date = start_date
+        self.end_date = end_date
+        self.description = description
+        self.time_control = time_control
+        self.current_round = current_round
+        self.rounds_total = rounds_total
+        self.players = players
+        self.rounds = rounds
 
-    def __repr__(self):
-        return f"{self.tournament_name} - {self.location}\n\n {self.list_of_tours}\n"
+        self.tour_db = TinyDB('database/tournaments.json')
 
-    def serialized(self):
-        tournament_infos = {}
-        tournament_infos['Nom du tournoi'] = self.tournament_name
-        tournament_infos['Lieu'] = self.location
-        tournament_infos['Date'] = self.tournament_date
-        tournament_infos['Nombre de tours'] = self.number_of_tours
-        tournament_infos['Controle du temps'] = self.time_control
-        tournament_infos['Description'] = self.description
-        tournament_infos["Joueurs_id"] = self.players_ids
-        tournament_infos["Tours"] = self.list_of_tours
-        tournament_infos["Id du tournoi"] = self.tournament_id
+    def serialize_tournament(self):
+        """Return serialized tournament info"""
+        return {
+            "id": self.tournament_id,
+            "name": self.name,
+            "location": self.location,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "description": self.description,
+            "time_control": self.time_control,
+            "current_round": self.current_round,
+            "rounds_total": self.rounds_total,
+            "players": self.players,
+            "rounds": self.rounds,
+        }
 
-        return tournament_infos
+    def save_tournament_db(self):
+        """Save new tournament to database
+        Set tournament ID as document ID
+        """
+        db = self.tour_db
+        self.tournament_id = db.insert(self.serialize_tournament())
+        db.update({'id': self.tournament_id}, doc_ids=[self.tournament_id])
 
+    @staticmethod
+    def load_tournament_db():
+        """Load tournament database
+        @return: list of tournaments
+        """
+        db = TinyDB('database/tournaments.json')
+        db.all()
+        tournaments_list = []
+        for item in db:
+            tournaments_list.append(item)
 
-
-
-
-
+        return
