@@ -17,7 +17,16 @@ class Player:
         self.player_id = player_id
 
     def __str__(self):
-        return f"{self.last_name} {self.first_name}"
+        return f"{self.first_name} {self.last_name} ({self.tournament_score} points)"
 
-    def __repr__(self):
-        return f"{self.last_name} {self.first_name}, classement : {self.ranking}"
+    def serialized_player(self):
+        player_infos = {}
+        player_infos['Nom'] = self.last_name
+        player_infos['Prénom'] = self.first_name
+        player_infos['Date de naissance'] = self.birthdate
+        player_infos['Sexe'] = self.gender
+        player_infos['Classement'] = self.ranking
+        player_infos['Score'] = self.tournament_score
+        player_infos['Id du joueur'] = self.player_id
+        return player_infos
+
