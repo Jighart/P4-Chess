@@ -10,10 +10,13 @@ class Player:
         self.birthdate = birthdate
         self.gender = gender
         self.rank = rank
-        self.score = 0.0
+        self.score = 0
         self.opponents = []
 
         self.players_db = TinyDB('database/players.json')
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.score} points)"
 
     def serialize_player(self):
         """Return serialized player info"""
@@ -59,6 +62,3 @@ class Player:
             players.append(item)
 
         return players
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.score} points)"
