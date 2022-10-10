@@ -43,6 +43,21 @@ class Tournament:
         self.tournament_id = db.insert(self.serialize_tournament())
         db.update({'id': self.tournament_id}, doc_ids=[self.tournament_id])
 
+    def update_tournament_db(self):
+        """Update tournament info (after each round) in database"""
+        db = self.tour_db
+        db.update({'rounds': self.rounds}, doc_ids=[self.tournament_id])
+        db.update({'players': self.players}, doc_ids=[self.tournament_id])
+        db.update({'current_round': self.current_round}, doc_ids=[self.tournament_id])
+
+    def update_timer(self, timer, info):
+        """Update start or end timer of tournament
+        @param timer: date and time info (str)
+        @param info: start or end time (str)
+        """
+        db = self.tour_db
+        db.update({info: timer}, doc_ids=[self.tournament_id])
+
     @staticmethod
     def load_tournament_db():
         """Load tournament database
@@ -54,4 +69,4 @@ class Tournament:
         for item in db:
             tournaments_list.append(item)
 
-        return
+        return tournaments_list
