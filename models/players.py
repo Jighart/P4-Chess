@@ -31,7 +31,7 @@ class Player:
             "opponents": self.opponents
         }
 
-    def save_players_db(self):
+    def save_player_db(self):
         """Save new player to database
         Set player ID as document ID
         """
@@ -41,7 +41,7 @@ class Player:
 
     def update_player_db(self, info, option):
         """Update player info (from user input) in database
-        @param info: user input (str, or int inf "rank")
+        @param info: user input (str, or int if "rank")
         @param option: update info category
         """
         db = self.players_db

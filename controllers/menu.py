@@ -1,6 +1,7 @@
 from models.players import Player
 from models.tournament import Tournament
 from views.menu import MenuViews
+from controllers.tournament import TournamentController
 
 
 class MenuController:
@@ -116,6 +117,7 @@ class MenuController:
         """
         players = Player.load_player_db()
         id_list = []
+
         for i in range(len(players)):
             id_list.append(players[i]["id"])
 
@@ -173,3 +175,96 @@ class MenuController:
                     t["rounds_total"]
                 )
                 self.tour_cont.start_tournament(t)
+
+    def new_player(self):
+        """Create new player, serialize and save to DB"""
+        self.menu_view.create_new_player_header()
+        player_info = []
+        options = [
+            "last name",
+            "first name",
+            "date of birth (dd/mm/yyyy)",
+            "gender [M/F/O]",
+            "rank"
+        ]
+        for item in options:
+            self.menu_view.input_prompt_text(item)
+            user_input = input()
+            if user_input == "back":
+                self.main_menu_start()
+            else:
+                player_info.append(user_input)
+
+        MenuViews.review_player(player_info)
+        user_input = input().lower()
+
+        if user_input == "y":
+            player = Player(
+                player_id=0,
+                last_name=player_info[0],
+                first_name=player_info[1],
+                birthdate=player_info[2],
+                gender=player_info[3],
+                rank=int(player_info[4])
+            )
+
+            player.save_player_db()
+            self.menu_view.player_saved()
+            self.main_menu_start()
+
+        elif user_input == "n":
+            self.main_menu_start()
+
+    def update_player(self):
+        """Update existing player info"""
+        players = Player.load_player_db()
+
+        self.menu_view.select_players(players, "to update")
+        self.menu_view.input_prompt()
+        user_input = input()
+
+        if user_input == "back":
+            self.main_menu_start()
+
+        p = players[int(user_input) - 1]
+        p = Player(
+            p['id'],
+            p['last_name'],
+            p['first_name'],
+            p['date_of_birth'],
+            p['gender'],
+            p['rank']
+        )
+
+        options = [
+            "last name",
+            "first name",
+            "date of birth",
+            "gender",
+            "rank"
+        ]
+        self.menu_view.update_player_info(p, options)
+        self.menu_view.input_prompt()
+        user_input = input()
+
+        if user_input == "back":
+            self.main_menu_start()
+
+        elif int(user_input) <= len(options):
+            updated_info = (options[int(user_input) - 1]).replace(" ", "_")
+            self.menu_view.input_prompt_text(
+                f"new {options[int(user_input) - 1]}")
+            user_input = input()
+
+            if user_input == "back":
+                self.main_menu_start()
+
+            else:
+                p.update_player_db(user_input, updated_info)
+                self.menu_view.player_saved()
+
+                self.update_player()
+
+        else:
+            self.menu_view.input_error()
+            self.update_player()
