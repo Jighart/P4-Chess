@@ -1,3 +1,5 @@
+import os
+
 from models.players import Player
 from models.tournament import Tournament
 from views.menu import MenuViews
@@ -14,6 +16,7 @@ class MenuController:
         """Main menu selector :
         Redirects to respective submenus"""
 
+        os.system('cls' if os.name == 'nt' else 'clear')
         self.menu_view.app_title()
         self.menu_view.main_menu()
         self.menu_view.input_prompt()
