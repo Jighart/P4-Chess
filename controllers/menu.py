@@ -26,9 +26,9 @@ class MenuController:
             case "2":
                 self.resume_tournament()
             case "3":
-                pass  # self.new_player()
+                self.new_player()
             case "4":
-                pass  # self.update_player()
+                self.update_player()
             case "5":
                 pass  # self.reports_menu()
             case "exit":
