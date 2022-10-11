@@ -70,3 +70,28 @@ class Tournament:
             tournaments_list.append(item)
 
         return tournaments_list
+
+    def sort_players_by_rank(self):
+        """Sort players by rank (ascending)"""
+        self.players = sorted(self.players, key=lambda x: x.get('rank'))
+
+    def sort_players_by_score(self):
+        """Sort players by score (descending)"""
+        self.players = sorted(self.players, key=lambda x: x.get('score'), reverse=True)
+
+    def split_players(self):
+        """Split player in 2 halves (top and bottom players)"""
+        half = len(self.players) // 2
+        return self.players[:half], self.players[half:]
+
+    def merge_players(self, top_players, bottom_players):
+        """Merge top and bottom players in order of matches
+        @param top_players: top half of players (list)
+        @param bottom_players: bottom half of players (list)
+        """
+        merged_players = []
+        for i in range(len(self.players) // 2):
+            merged_players.append(top_players[i])
+            merged_players.append(bottom_players[i])
+
+        self.players = merged_players
