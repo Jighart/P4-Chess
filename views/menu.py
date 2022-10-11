@@ -9,7 +9,7 @@ class MenuViews:
 
     @staticmethod
     def main_menu():
-        print("\n\n=== MAIN MENU ===\n")
+        print("\n=== MAIN MENU ===\n")
         print("[1] Create new tournament")
         print("[2] Resume tournament")
         print("[3] Create new player")
