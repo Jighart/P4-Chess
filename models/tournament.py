@@ -51,18 +51,13 @@ class Tournament:
         db.update({'current_round': self.current_round}, doc_ids=[self.tournament_id])
 
     def update_timer(self, timer, info):
-        """Update start or end timer of tournament
-        @param timer: date and time info (str)
-        @param info: start or end time (str)
-        """
+        """Update start or end timer of tournament"""
         db = self.tour_db
         db.update({info: timer}, doc_ids=[self.tournament_id])
 
     @staticmethod
     def load_tournament_db():
-        """Load tournament database
-        @return: list of tournaments
-        """
+        """Load tournament database"""
         db = TinyDB('database/tournaments.json')
         db.all()
         tournaments_list = []
@@ -85,10 +80,7 @@ class Tournament:
         return self.players[:half], self.players[half:]
 
     def merge_players(self, top_players, bottom_players):
-        """Merge top and bottom players in order of matches
-        @param top_players: top half of players (list)
-        @param bottom_players: bottom half of players (list)
-        """
+        """Merge top and bottom players in order of matches"""
         merged_players = []
         for i in range(len(self.players) // 2):
             merged_players.append(top_players[i])

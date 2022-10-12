@@ -169,6 +169,9 @@ class TournamentController:
 
         t.players = self.update_scores(t.players, scores_list)
 
+        if t.current_round > t.rounds_total:
+            self.tournament_end(t)
+
         return t.players
 
     def input_scores(self):
