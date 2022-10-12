@@ -15,7 +15,7 @@ class MenuController:
         self.reports_cont = ReportsController()
 
     def main_menu_start(self):
-        """Main menu selector :
+        """Main menu selector:
         Redirects to respective submenus"""
 
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -96,9 +96,7 @@ class MenuController:
             self.main_menu_start()
 
     def input_time_control(self):
-        """Select time control for new tournament
-        @return: time control (str)
-        """
+        """Select time control for new tournament"""
         self.menu_view.time_control_options()
         self.menu_view.input_prompt()
         user_input = input()
@@ -280,15 +278,28 @@ class MenuController:
         self.menu_view.input_prompt()
         user_input = input()
 
-        if user_input == "1":
-            self.player_reports_sorting(Player.load_player_db())
+        match user_input:
+            case "1":
+                self.player_reports_sorting(Player.load_player_db())
 
-        elif user_input == "back":
-            self.main_menu_start()
+            case "2":
+                self.player_reports_sorting(self.reports_cont.tournament_players())
 
-        else:
-            self.menu_view.input_error()
-            self.reports_menu()
+            case "3":
+                self.reports_cont.all_tournaments()
+
+            case "4":
+                self.reports_cont.tournament_rounds()
+
+            case "5":
+                self.reports_cont.tournament_matches()
+
+            case "back":
+                self.main_menu_start()
+
+            case _:
+                self.menu_view.input_error()
+                self.reports_menu()
 
         self.menu_view.other_report()
         user_input = input()
@@ -305,8 +316,16 @@ class MenuController:
         self.menu_view.input_prompt()
         user_input = input()
 
-        if user_input == "1":
-            self.reports_cont.all_players_name(players)
+        match user_input:
+            case "1":
+                self.reports_cont.all_players_name(players)
 
-        elif user_input == "back":
-            self.main_menu_start()
+            case "2":
+                self.reports_cont.all_players_rank(players)
+
+            case "back":
+                self.main_menu_start()
+
+            case _:
+                self.menu_view.input_error()
+                self.player_reports_sorting(players)
