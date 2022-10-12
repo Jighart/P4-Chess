@@ -4,6 +4,7 @@ from models.players import Player
 from models.tournament import Tournament
 from views.menu import MenuViews
 from controllers.tournament import TournamentController
+from controllers.reports import ReportsController
 
 
 class MenuController:
@@ -11,6 +12,7 @@ class MenuController:
     def __init__(self):
         self.menu_view = MenuViews()
         self.tour_cont = TournamentController()
+        self.reports_cont = ReportsController()
 
     def main_menu_start(self):
         """Main menu selector :
@@ -33,7 +35,7 @@ class MenuController:
             case "4":
                 self.update_player()
             case "5":
-                pass  # self.reports_menu()
+                self.reports_menu()
             case "exit":
                 exit()
             case _:
@@ -271,3 +273,40 @@ class MenuController:
         else:
             self.menu_view.input_error()
             self.update_player()
+
+    def reports_menu(self):
+        """Reports menu selector"""
+        self.menu_view.reports_menu()
+        self.menu_view.input_prompt()
+        user_input = input()
+
+        if user_input == "1":
+            self.player_reports_sorting(Player.load_player_db())
+
+        elif user_input == "back":
+            self.main_menu_start()
+
+        else:
+            self.menu_view.input_error()
+            self.reports_menu()
+
+        self.menu_view.other_report()
+        user_input = input()
+
+        if user_input == "y":
+            self.reports_menu()
+
+        elif user_input == "n":
+            self.main_menu_start()
+
+    def player_reports_sorting(self, players):
+        """Select sorting option (name or rank) for players"""
+        self.menu_view.reports_player_sorting()
+        self.menu_view.input_prompt()
+        user_input = input()
+
+        if user_input == "1":
+            self.reports_cont.all_players_name(players)
+
+        elif user_input == "back":
+            self.main_menu_start()
