@@ -6,7 +6,7 @@ class RoundViews:
     def __init__(self):
         self.table = PrettyTable()
 
-        self.rounds_headers = [
+        self.round_field_names = [
             "Match #",
             "Name P1",
             "Rank P1",
@@ -16,7 +16,7 @@ class RoundViews:
             "Score P2"
         ]
 
-        self.results_headers = [
+        self.results_field_names = [
             "Tournament ranking",
             "Name",
             "Final Score",
@@ -28,7 +28,7 @@ class RoundViews:
         @param matches: list of matches tuples
         """
         self.table.clear()
-        self.table.headers = self.rounds_headers
+        self.table.field_names = self.round_field_names
 
         for i in range(len(matches)):
             row = list(matches[i])
@@ -43,7 +43,7 @@ class RoundViews:
         @param t: current tournament
         """
         self.table.clear()
-        self.table.field_names = self.results_headers
+        self.table.field_names = self.results_field_names
 
         for i in range(len(t.players)):
             self.table.add_row([
@@ -77,8 +77,8 @@ class RoundViews:
 
     @staticmethod
     def round_over():
-        print("\nRound over ? [ok]")
-        print("Back to main menu ? [back]")
+        print("\nRound over? [ok]")
+        print("Back to main menu? [back]")
 
     @staticmethod
     def score_options(match_number):
@@ -90,5 +90,4 @@ class RoundViews:
 
     @staticmethod
     def score_input_prompt():
-        print('\nEnter result :', end=' ')
-        
+        print('\nEnter result:', end=' ')
