@@ -26,4 +26,3 @@ class Round:
             player_2["score"]
         )
         self.matches.append(match)
-
