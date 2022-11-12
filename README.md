@@ -1,8 +1,8 @@
 # Projet 4: Chess Tournament
 
-*Codé avec Python 3.10*
+*Nécessite Python 3.10+*
 
-Ce programme gère les tournois d'échecs hebdomadaire et permet de générer des rapports.
+Ce programme gère les tournois d'échecs hebdomadaires et permet de générer des rapports.
 Les différents menus permettent de :
 
 - Créer un nouveau tournoi
@@ -33,7 +33,11 @@ Il ne reste plus qu'à installer les packages requis :
 ```
 pip install -r requirements.txt
 ```
-Vous pouvez enfin lancer le script :
+Vous pouvez enfin lancer le programme et vous laisser guider :
 ```
 python main.py
 ```
+
+Vous trouverez également le rapport flake8 dans le dossier flake_report. A noter que pour l'instant, flake8-html [n'est
+pas compatible avec flake8 5.0 ou plus](https://github.com/lordmauve/flake8-html/issues/30), j'ai donc utilisé
+la version 4.0.1 ici.
