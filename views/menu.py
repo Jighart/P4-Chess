@@ -43,7 +43,7 @@ class MenuViews:
         print("\nPlayers (8 total) :\n")
 
         for item in players:
-            print(f"Player {players.index(item) + 1} : ", end='')
+            print(f"Player {players.index(item) + 1}: ", end='')
             print(f"{item['first_name']} {item['last_name']}", end=' | ')
             print(f"{item['date_of_birth']}", end=' | ')
             print(f"Rank : {item['rank']}")
@@ -64,7 +64,7 @@ class MenuViews:
         @param players: list of players
         @param player_number: number of current player for new tournament (if editing player == "")
         """
-        print(f"\nSelect player {player_number} :\n")
+        print(f"\nSelect player {player_number}:\n")
         for i in range(len(players)):
             print(f"[{players[i]['id']}]", end=' ')
             print(f"{players[i]['first_name']} {players[i]['last_name']}", end=" | ")
@@ -85,8 +85,8 @@ class MenuViews:
             print(tournaments[i]['name'], end=' | ')
             print(tournaments[i]['location'], end=" | ")
             print(tournaments[i]['description'], end=' | ')
-            print(f"Started on : {tournaments[i]['start_date']}", end=' | ')
-            print(f"Ended on : {tournaments[i]['end_date']}", end=' | ')
+            print(f"Started on: {tournaments[i]['start_date']}", end=' | ')
+            print(f"Ended on: {tournaments[i]['end_date']}", end=' | ')
             print(f"Round {tournaments[i]['current_round']-1}/{tournaments[i]['rounds_total']}")
 
         print("\n[back] Back to main menu")

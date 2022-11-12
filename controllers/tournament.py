@@ -45,7 +45,7 @@ class TournamentController:
             self.tournament_end(t)
 
     def first_round(self, t):
-        """First round : top players vs. bottom players
+        """First round (r): top players vs. bottom players
         Get pairings and set round to save to DB"""
         r = Round("Round 1", self.timer, "TBD")
         t.sort_players_by_rank()
@@ -74,7 +74,7 @@ class TournamentController:
             self.back_to_menu()
 
     def next_rounds(self, t):
-        """Next rounds : set possible pairings
+        """Next rounds: set possible pairings
         Get pairings and set round to save to DB"""
         r = Round(("Round " + str(t.current_round)), self.timer, "TBD")
         t.sort_players_by_score()

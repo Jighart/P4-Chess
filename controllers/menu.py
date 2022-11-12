@@ -11,8 +11,8 @@ class MenuController:
 
     def __init__(self):
         self.menu_view = MenuViews()
-        self.tour_cont = TournamentController()
-        self.reports_cont = ReportsController()
+        self.tournament_controller = TournamentController()
+        self.reports_controller = ReportsController()
 
     def main_menu_start(self):
         """Main menu selector:
@@ -23,9 +23,7 @@ class MenuController:
         self.menu_view.main_menu()
         self.menu_view.input_prompt()
 
-        user_input = input()
-
-        match user_input:
+        match input():
             case "1":
                 self.new_tournament()
             case "2":
@@ -63,9 +61,9 @@ class MenuController:
                 tournament_info.append(user_input)
 
         tournament_info.append(self.input_time_control())
-        tour_players = self.select_players(8)
+        tournament_players = self.select_players(8)
 
-        self.menu_view.review_tournament(tournament_info, tour_players)
+        self.menu_view.review_tournament(tournament_info, tournament_players)
         user_input = input().lower()
 
         if user_input == "y":
@@ -77,7 +75,7 @@ class MenuController:
                 end_date="TBD",
                 description=tournament_info[2],
                 time_control=tournament_info[3],
-                players=tour_players,
+                players=tournament_players,
                 current_round=1,
                 rounds=[]
             )
@@ -88,7 +86,7 @@ class MenuController:
             user_input = input()
 
             if user_input == "y":
-                self.tour_cont.start_tournament(tournament)
+                self.tournament_controller.start_tournament(tournament)
             elif user_input == "n":
                 self.main_menu_start()
 
@@ -99,19 +97,19 @@ class MenuController:
         """Select time control for new tournament"""
         self.menu_view.time_control_options()
         self.menu_view.input_prompt()
-        user_input = input()
 
-        if user_input == "1":
-            return "Bullet"
-        elif user_input == "2":
-            return "Blitz"
-        elif user_input == "3":
-            return "Rapid"
-        elif user_input == "back":
-            self.main_menu_start()
-        else:
-            self.menu_view.input_error()
-            self.input_time_control()
+        match input():
+            case "1":
+                return "Bullet"
+            case "2":
+                return "Blitz"
+            case "3":
+                return "Rapid"
+            case "back":
+                self.main_menu_start()
+            case _:
+                self.menu_view.input_error()
+                self.input_time_control()
 
     def select_players(self, players_total):
         """Select players for new tournament
@@ -124,7 +122,7 @@ class MenuController:
         for i in range(len(players)):
             id_list.append(players[i]["id"])
 
-        tour_players = []
+        tournament_players = []
 
         i = 0
         while i < players_total:
@@ -140,7 +138,7 @@ class MenuController:
 
             elif int(user_input) in id_list:
                 index = id_list.index(int(user_input))
-                tour_players.append(players[index])
+                tournament_players.append(players[index])
                 id_list.remove(id_list[index])
                 players.remove(players[index])
                 i += 1
@@ -148,7 +146,7 @@ class MenuController:
             else:
                 self.menu_view.player_already_selected()
 
-        return tour_players
+        return tournament_players
 
     def resume_tournament(self):
         """Select existing tournament to resume"""
@@ -177,7 +175,7 @@ class MenuController:
                     t["rounds"],
                     t["rounds_total"]
                 )
-                self.tour_cont.start_tournament(t)
+                self.tournament_controller.start_tournament(t)
 
     def new_player(self):
         """Create new player, serialize and save to DB"""
@@ -193,6 +191,7 @@ class MenuController:
         for item in options:
             self.menu_view.input_prompt_text(item)
             user_input = input()
+
             if user_input == "back":
                 self.main_menu_start()
             else:
@@ -265,7 +264,6 @@ class MenuController:
             else:
                 p.update_player_db(user_input, updated_info)
                 self.menu_view.player_saved()
-
                 self.update_player()
 
         else:
@@ -276,27 +274,20 @@ class MenuController:
         """Reports menu selector"""
         self.menu_view.reports_menu()
         self.menu_view.input_prompt()
-        user_input = input()
 
-        match user_input:
+        match input():
             case "1":
                 self.player_reports_sorting(Player.load_player_db())
-
             case "2":
-                self.player_reports_sorting(self.reports_cont.tournament_players())
-
+                self.player_reports_sorting(self.reports_controller.tournament_players())
             case "3":
-                self.reports_cont.all_tournaments()
-
+                self.reports_controller.all_tournaments()
             case "4":
-                self.reports_cont.tournament_rounds()
-
+                self.reports_controller.tournament_rounds()
             case "5":
-                self.reports_cont.tournament_matches()
-
+                self.reports_controller.tournament_matches()
             case "back":
                 self.main_menu_start()
-
             case _:
                 self.menu_view.input_error()
                 self.reports_menu()
@@ -314,18 +305,14 @@ class MenuController:
         """Select sorting option (name or rank) for players"""
         self.menu_view.reports_player_sorting()
         self.menu_view.input_prompt()
-        user_input = input()
 
-        match user_input:
+        match input():
             case "1":
-                self.reports_cont.all_players_name(players)
-
+                self.reports_controller.all_players_name(players)
             case "2":
-                self.reports_cont.all_players_rank(players)
-
+                self.reports_controller.all_players_rank(players)
             case "back":
                 self.main_menu_start()
-
             case _:
                 self.menu_view.input_error()
                 self.player_reports_sorting(players)

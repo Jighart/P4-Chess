@@ -61,7 +61,7 @@ class Reports:
                 players[i]["rank"]
             ])
 
-        print(f"\n\n\n- All players ({sorting}) -\n")
+        print(f"\n\n- All players ({sorting}) -\n")
         print(self.table)
 
     def display_tournaments_report(self, tournaments):
@@ -138,12 +138,12 @@ class Reports:
         """
         print("\n\n")
 
-        h_1 = f"{info['name'].upper()}, {info['location'].title()} | Description : {info['description']}"
+        h_1 = f"{info['name'].upper()}, {info['location'].title()} | Description: {info['description']}"
         h_2 = \
-            f"Start date : {info['start_date']} | " \
-            f"End date : {info['end_date']} | " \
-            f"Time control : {info['time_control']} | " \
-            f"Rounds played : {info['current_round']-1}/{info['rounds_total']}"
+            f"Start date: {info['start_date']} | " \
+            f"End date: {info['end_date']} | " \
+            f"Time control: {info['time_control']} | " \
+            f"Rounds played: {info['current_round']-1}/{info['rounds_total']}"
 
         print(h_1)
         print(h_2)
