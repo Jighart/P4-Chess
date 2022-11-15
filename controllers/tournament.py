@@ -64,11 +64,11 @@ class TournamentController:
         scores_list = []
 
         if user_input == "ok":
-            r.end_datetime = self.timer
+            r.end_time = self.timer
             t.rounds.append(r.set_round())
             t.merge_players(top_players, bottom_players)
 
-            self.end_of_round(scores_list, t)
+            self.end_of_round(scores_list, t, r.matches)
 
         elif user_input == "back":
             self.back_to_menu()
@@ -111,9 +111,9 @@ class TournamentController:
         scores_list = []
 
         if user_input == "ok":
-            r.end_datetime = self.timer
+            r.end_time = self.timer
             t.rounds.append(r.set_round())
-            self.end_of_round(scores_list, t)
+            self.end_of_round(scores_list, t, r.matches)
 
         elif user_input == "back":
             self.back_to_menu()
@@ -156,14 +156,15 @@ class TournamentController:
 
         return available_list, players_added
 
-    def end_of_round(self, scores_list: list, t):
+    def end_of_round(self, scores_list: list, t, matches):
         """End of round : update player scores
         @param t: current tournament
         @param scores_list: list of scores
+        @param matches: list of matches for current round
         @return: players list with updated scores
         """
         for i in range(t.rounds_total):
-            self.round_view.score_options(i + 1)
+            self.round_view.score_options(i + 1, matches)
             response = self.input_scores()
             scores_list = self.get_score(response, scores_list)
 
@@ -186,20 +187,21 @@ class TournamentController:
         @param scores_list: list of scores
         @return: updated list of scores
         """
-        if response == "0":
-            scores_list.extend([0.5, 0.5])
-            return scores_list
-        elif response == "1":
-            scores_list.extend([1.0, 0.0])
-            return scores_list
-        elif response == "2":
-            scores_list.extend([0.0, 1.0])
-            return scores_list
-        elif response == "back":
-            self.back_to_menu()
-        else:
-            self.menu_view.input_error()
-            self.input_scores()
+        match response:
+            case "0":
+                scores_list.extend([0.5, 0.5])
+                return scores_list
+            case "1":
+                scores_list.extend([1.0, 0.0])
+                return scores_list
+            case "2":
+                scores_list.extend([0.0, 1.0])
+                return scores_list
+            case "back":
+                self.back_to_menu()
+            case _:
+                self.menu_view.input_error()
+                self.input_scores()
 
     @staticmethod
     def update_scores(players, scores_list: list):

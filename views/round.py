@@ -81,11 +81,11 @@ class RoundViews:
         print("Back to main menu? [back]")
 
     @staticmethod
-    def score_options(match_number):
-        print("\nMatch ", match_number)
-        print('[0] Draw')
-        print('[1] Player 1 wins')
-        print('[2] Player 2 wins')
+    def score_options(match_number, matches):
+        print(f"\nMatch {match_number} ({matches[match_number - 1][0]} vs {matches[match_number - 1][3]})")
+        print("[0] Draw")
+        print(f"[1] {matches[match_number - 1][0]} wins")
+        print(f"[2] {matches[match_number - 1][3]} wins")
         print("\n[back] Back to main menu")
 
     @staticmethod
