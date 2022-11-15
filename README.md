@@ -1,6 +1,5 @@
 # Projet 4: Chess Tournament
-
-*Nécessite Python 3.10+*
+## Nécessite Python 3.10+
 
 Ce programme gère les tournois d'échecs hebdomadaires et permet de générer des rapports.
 Les différents menus permettent de :
